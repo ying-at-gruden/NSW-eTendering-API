@@ -1,0 +1,21 @@
+﻿@model Api.Web.Models.S3.FileList
+<h2>S3 Files Details</h2>
+<ul>
+    @foreach (var file in Model.Files)
+    {
+
+        <li>
+            <h3>@file.Filename</h3>
+            <strong>Content Type: </strong>
+            @file.ContentType<br />
+            <strong>MetaData: </strong>
+            @foreach (KeyValuePair<string, string> entry in file.MetaData)
+            {
+                @Html.Raw(entry.Key + ": " + entry.Value + "<br>")
+            }
+
+            <strong>Content:</strong>
+            @file.FileContent
+        </li>
+    }
+</ul>

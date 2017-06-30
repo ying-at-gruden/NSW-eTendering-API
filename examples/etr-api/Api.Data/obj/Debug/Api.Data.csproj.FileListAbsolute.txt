@@ -5,3 +5,10 @@ D:\VSProjects\etr-api\Api.Data\bin\Debug\EntityFramework.dll
 D:\VSProjects\etr-api\Api.Data\bin\Debug\EntityFramework.xml
 D:\VSProjects\etr-api\Api.Data\obj\Debug\Api.Data.dll
 D:\VSProjects\etr-api\Api.Data\obj\Debug\Api.Data.pdb
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\bin\Debug\Api.Data.dll.config
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\bin\Debug\Api.Data.dll
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\bin\Debug\Api.Data.pdb
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\bin\Debug\EntityFramework.dll
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\bin\Debug\EntityFramework.xml
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\obj\Debug\Api.Data.dll
+D:\Tenders\eTender API\NSW-eTendering-API\examples\etr-api\Api.Data\obj\Debug\Api.Data.pdb

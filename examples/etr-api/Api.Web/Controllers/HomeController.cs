@@ -2,15 +2,51 @@
 using System.Threading.Tasks;
 using Api.Web.Models;
 using Api.Web.Utilities;
+using TikaOnDotNet.TextExtraction;
+using System.Configuration;
+using Api.Utilities.FileStorage;
+using Api.Utilities.ViewHelpers;
+using Api.Web.Models.S3;
+using System.Collections.Generic;
 
 namespace Api.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public AwsStorageClient AwsClient { get; set; }
+
+        public FormatHelper FormatHelper { get; set; }
+
         //private EtrDbContext db = new EtrDbContext();
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult ExtractFile()
+        {
+            var textExtractor = new TextExtractor();
+            //var result = textExtractor.Extract(@"d:\Downloads\AusTender User Interface Guide V1.13.pdf");
+
+            AwsClient.BucketName = ConfigurationManager.AppSettings["aws:s3:documents_bucket"];
+            var fileList = new FileList() { Files = new List<S3File>() };
+
+            var bucketFileList = AwsClient.List("*.*"); // List all files in the bucket
+            foreach(var filename in bucketFileList)
+            {
+                var fileStream = AwsClient.ReadFile(filename); // Read file stream from S3 file
+                var fileBytes = FormatHelper.convertStreamToByteArray(fileStream);
+                var result = textExtractor.Extract(fileBytes); // Extract file content
+                fileList.Files.Add(new S3File()
+                {
+                    Filename = filename,
+                    ContentType = result.ContentType,
+                    MetaData = (Dictionary<string,string>)result.Metadata,
+                    FileContent = result.Text
+                });
+            }
+
+            return View(fileList);
         }
 
         public async Task<ActionResult> ParsePlannedProcurements()
@@ -18,8 +54,8 @@ namespace Api.Web.Controllers
             //var cn = new cn() { CNUUID = "F7EABE30-D193-79E8-4EA6EC13105DE46C" };
             //db.SaveChanges();
             var requestHelper = new RequestHelper();
-            //var baseUrl = "http://ec2-54-252-210-13.ap-southeast-2.compute.amazonaws.com/";
-            var baseUrl = "http://dev.etr.gruden.com/";
+            var baseUrl = "http://ec2-54-252-210-13.ap-southeast-2.compute.amazonaws.com/";
+            //var baseUrl = "http://dev.etr.gruden.com/";
             var result = "<table><tr><th>Planned Procurement</th><th>Tenders</th><th>Contracts</th></tr>";
 
             // valid search result              ?event=public.api.planning.search&ResultsPerPage=99
